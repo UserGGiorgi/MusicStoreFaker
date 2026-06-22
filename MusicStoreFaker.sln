@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStoreFaker.Web", "MusicStoreFaker.Web\MusicStoreFaker.Web.csproj", "{9DF55D4F-6740-4B34-ACB4-B47EBE358104}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStoreFaker.Core", "MusicStoreFaker.Core\MusicStoreFaker.Core.csproj", "{7CA3F089-1FBF-47AB-9AED-06AE48F49506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStoreFaker.Data", "MusicStoreFaker.Data\MusicStoreFaker.Data.csproj", "{291B6DBE-5D85-48D4-9C5F-AA610A061CE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DF55D4F-6740-4B34-ACB4-B47EBE358104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF55D4F-6740-4B34-ACB4-B47EBE358104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF55D4F-6740-4B34-ACB4-B47EBE358104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF55D4F-6740-4B34-ACB4-B47EBE358104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA3F089-1FBF-47AB-9AED-06AE48F49506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA3F089-1FBF-47AB-9AED-06AE48F49506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA3F089-1FBF-47AB-9AED-06AE48F49506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA3F089-1FBF-47AB-9AED-06AE48F49506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{291B6DBE-5D85-48D4-9C5F-AA610A061CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{291B6DBE-5D85-48D4-9C5F-AA610A061CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{291B6DBE-5D85-48D4-9C5F-AA610A061CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{291B6DBE-5D85-48D4-9C5F-AA610A061CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B1E871A-FED9-404B-A959-D06BB9C4289B}
+	EndGlobalSection
+EndGlobal

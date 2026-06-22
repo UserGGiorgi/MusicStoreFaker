@@ -1,0 +1,6 @@
+@MusicStoreFaker.Web_HostAddress = http://localhost:5204
+
+GET {{MusicStoreFaker.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
