@@ -30,7 +30,7 @@ namespace MusicStoreFaker.Web.Controllers
                 for (int i = 1; i <= count; i++)
                 {
                     var song = _songGenerator.GenerateSong(i, region, seed, likes);
-                    var audioBytes = _audioGenerator.GeneratePreviewMp3(i, seed);
+                    var audioBytes = _audioGenerator.GeneratePreviewWav(i, seed);
 
                     string fileName = $"{i:000} - {Sanitize(song.Artist)} - {Sanitize(song.Title)}.mp3";
                     var entry = archive.CreateEntry(fileName, CompressionLevel.Fastest);

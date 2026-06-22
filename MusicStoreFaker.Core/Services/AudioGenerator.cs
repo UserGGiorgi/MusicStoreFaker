@@ -23,14 +23,14 @@ namespace MusicStoreFaker.Core.Services
             _soundFontPath = soundFontPath;
         }
 
-        public byte[] GeneratePreviewMp3(int sequenceIndex, long seed)
+        public byte[] GeneratePreviewWav(int sequenceIndex, long seed)
         {
             long effectiveSeed = CombineSeed(seed, sequenceIndex);
             Random rng = new Random((int)(effectiveSeed ^ (effectiveSeed >> 32)));
 
             byte[] midiBytes = CreateMidi(rng);
             byte[] wavBytes = RenderMidiToWav(midiBytes);
-            return ConvertWavToMp3(wavBytes);
+            return wavBytes;
         }
 
         private byte[] CreateMidi(Random rng)

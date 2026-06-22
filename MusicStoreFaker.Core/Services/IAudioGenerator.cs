@@ -2,6 +2,6 @@
 {
     public interface IAudioGenerator
     {
-        byte[] GeneratePreviewMp3(int sequenceIndex, long seed);
+        byte[] GeneratePreviewWav(int sequenceIndex, long seed);
     }
 }

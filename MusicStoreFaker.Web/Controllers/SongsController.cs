@@ -72,12 +72,10 @@ namespace MusicStoreFaker.Web.Controllers
         }
 
         [HttpGet("{index:int}/audio")]
-        public IActionResult GetAudio(
-            int index,
-            [FromQuery] long seed = 0)
+        public IActionResult GetAudio(int index, [FromQuery] long seed = 0)
         {
-            var audioBytes = _audioGenerator.GeneratePreviewMp3(index, seed);
-            return File(audioBytes, "audio/mpeg");
+            var audioBytes = _audioGenerator.GeneratePreviewWav(index, seed);
+            return File(audioBytes, "audio/wav");
         }
 
         [HttpGet("{index:int}/lyrics")]
