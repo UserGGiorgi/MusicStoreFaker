@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+﻿import React, { useEffect, useState, useRef } from 'react';
 import { SongData, SongDetail, LyricLine } from '../types';
 
 interface Props {
@@ -14,11 +14,11 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
     const [songs, setSongs] = useState<SongData[]>([]);
     const [expanded, setExpanded] = useState<number | null>(null);
     const [detail, setDetail] = useState<SongDetail | null>(null);
-
     const [lyrics, setLyrics] = useState<LyricLine[]>([]);
     const [currentLine, setCurrentLine] = useState(-1);
     const audioRef = useRef<HTMLAudioElement>(null);
 
+    // Reset on parameter change
     useEffect(() => {
         setPage(1);
         setExpanded(null);
@@ -27,6 +27,7 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
         setCurrentLine(-1);
     }, [region, seed, likes]);
 
+    // Fetch songs for current page
     useEffect(() => {
         const fetchData = async () => {
             const res = await fetch(
@@ -48,6 +49,7 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
         }
         setExpanded(index);
 
+        // Fetch detail + lyrics in parallel
         const [detailRes, lyricsRes] = await Promise.all([
             fetch(`/api/songs/${index}?region=${region}&seed=${seed}`),
             fetch(`/api/songs/${index}/lyrics?seed=${seed}`)
@@ -66,6 +68,7 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
         setCurrentLine(idx === -1 ? lyrics.length - 1 : idx - 1);
     };
 
+    // Auto‑scroll active lyric into view
     useEffect(() => {
         if (currentLine >= 0) {
             const el = document.getElementById(`lyric-${currentLine}`);
@@ -74,52 +77,63 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
     }, [currentLine]);
 
     return (
-        <div>
-            <table>
+        <div style={{ width: '100%', overflowX: 'auto' }}>
+            <table style={{
+                width: '100%',
+                borderCollapse: 'collapse',
+                tableLayout: 'fixed',
+                minWidth: 700
+            }}>
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Album</th>
-                        <th>Genre</th>
-                        <th>Likes</th>
+                    <tr style={{ background: '#f5f5f5' }}>
+                        <th style={{ width: '5%', padding: '0.75rem', textAlign: 'left' }}>#</th>
+                        <th style={{ width: '25%', padding: '0.75rem', textAlign: 'left' }}>Title</th>
+                        <th style={{ width: '20%', padding: '0.75rem', textAlign: 'left' }}>Artist</th>
+                        <th style={{ width: '20%', padding: '0.75rem', textAlign: 'left' }}>Album</th>
+                        <th style={{ width: '15%', padding: '0.75rem', textAlign: 'left' }}>Genre</th>
+                        <th style={{ width: '10%', padding: '0.75rem', textAlign: 'left' }}>Likes</th>
                     </tr>
                 </thead>
                 <tbody>
                     {songs.map(song => (
                         <React.Fragment key={song.sequenceIndex}>
-                            <tr onClick={() => toggleExpand(song.sequenceIndex)} style={{ cursor: 'pointer' }}>
-                                <td>{song.sequenceIndex}</td>
-                                <td>{song.title}</td>
-                                <td>{song.artist}</td>
-                                <td>{song.album}</td>
-                                <td>{song.genre}</td>
-                                <td>{song.likes}</td>
+                            <tr
+                                onClick={() => toggleExpand(song.sequenceIndex)}
+                                style={{
+                                    cursor: 'pointer',
+                                    borderBottom: '1px solid #eee',
+                                    background: expanded === song.sequenceIndex ? '#f0f7ff' : 'white'
+                                }}
+                            >
+                                <td style={{ padding: '0.5rem 0.75rem' }}>{song.sequenceIndex}</td>
+                                <td style={{ padding: '0.5rem 0.75rem', fontWeight: 500 }}>{song.title}</td>
+                                <td style={{ padding: '0.5rem 0.75rem' }}>{song.artist}</td>
+                                <td style={{ padding: '0.5rem 0.75rem' }}>{song.album}</td>
+                                <td style={{ padding: '0.5rem 0.75rem' }}>{song.genre}</td>
+                                <td style={{ padding: '0.5rem 0.75rem' }}>{song.likes}</td>
                             </tr>
                             {expanded === song.sequenceIndex && detail && (
                                 <tr>
-                                    <td colSpan={6}>
-                                        <div style={{ display: 'flex', gap: '2rem', padding: '1rem', background: '#fafafa' }}>
+                                    <td colSpan={6} style={{ padding: '1.5rem', background: '#fafafa' }}>
+                                        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+                                            {/* Cover + Review */}
                                             <div>
                                                 <img
                                                     src={detail.coverUrl}
                                                     alt="cover"
-                                                    style={{ width: 150, height: 150, borderRadius: 4 }}
+                                                    style={{ width: 180, height: 180, borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}
                                                 />
-                                                <p style={{ maxWidth: 200 }}>{detail.review}</p>
+                                                <p style={{ maxWidth: 220, marginTop: '0.5rem', fontStyle: 'italic' }}>{detail.review}</p>
                                             </div>
 
-                                            <div style={{ flex: 1 }}>
+                                            {/* Audio + Lyrics */}
+                                            <div style={{ flex: 1, minWidth: 280 }}>
                                                 <audio
                                                     ref={audioRef}
                                                     controls
                                                     src={detail.audioUrl}
                                                     onTimeUpdate={handleTimeUpdate}
-                                                    onError={(e) => {
-                                                        console.error('Audio playback failed:', detail.audioUrl, e);
-                                                        alert('Could not load audio for this song. Please try another one.');
-                                                    }}
+                                                    onError={() => console.error('Audio playback failed')}
                                                     style={{ width: '100%', marginBottom: '1rem' }}
                                                 />
                                                 {lyrics.length > 0 && (
@@ -128,9 +142,9 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
                                                             maxHeight: 300,
                                                             overflow: 'auto',
                                                             border: '1px solid #ddd',
-                                                            padding: '0.5rem',
                                                             borderRadius: 4,
-                                                            background: '#fff'
+                                                            background: '#fff',
+                                                            padding: '0.5rem'
                                                         }}
                                                     >
                                                         {lyrics.map((line, i) => (
@@ -162,12 +176,21 @@ const TableView: React.FC<Props> = ({ region, seed, likes }) => {
                 </tbody>
             </table>
 
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', margin: '1rem' }}>
-                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
-                    Prev
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', margin: '1.5rem 0' }}>
+                <button
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    style={{ padding: '0.4rem 1rem', cursor: 'pointer' }}
+                >
+                    ← Prev
                 </button>
-                <span>Page {page}</span>
-                <button onClick={() => setPage(p => p + 1)}>Next</button>
+                <span style={{ padding: '0.4rem 0', fontWeight: 500 }}>Page {page}</span>
+                <button
+                    onClick={() => setPage(p => p + 1)}
+                    style={{ padding: '0.4rem 1rem', cursor: 'pointer' }}
+                >
+                    Next →
+                </button>
             </div>
         </div>
     );
